@@ -1,0 +1,29 @@
+// netlify/functions/send-to-discord.js
+const fetch = require('node-fetch');
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+  if (!DISCORD_WEBHOOK_URL) {
+    console.error('Error: La variable de entorno DISCORD_WEBHOOK_URL no está configurada.');
+    return { statusCode: 500, body: 'Server configuration error.' };
+  }
+  try {
+    const payload = JSON.parse(event.body);
+    const discordResponse = await fetch(DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!discordResponse.ok) {
+      const errorText = await discordResponse.text();
+      console.error('Error al enviar a Discord:', discordResponse.status, errorText);
+      return { statusCode: 502, body: 'Bad Gateway: Discord rejected the payload.' };
+    }
+    return { statusCode: 200, body: 'Log sent successfully' };
+  } catch (error) {
+    console.error('Error en el proxy de Netlify:', error);
+    return { statusCode: 500, body: 'Internal Server Error' };
+  }
+};
